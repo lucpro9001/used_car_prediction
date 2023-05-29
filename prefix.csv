@@ -1,0 +1,14 @@
+abtest,vehicleType,gearbox,powerPS,odometer,fuelType,brand,notRepairedDamage,Age
+1,limousine,0,150,150000,benzin,America,0,14.33
+0,kleinwagen,1,158,150000,diesel,France,0,16.25
+1,kombi,1,140,90000,lpg,Spain,0,8.17
+0,bus,1,184,10000,cng,England,0,5.08
+0,cabrio,1,131,150000,hybrid,Sweden,0,21.33
+1,coupe,1,85,150000,elektro,Italy,0,19.33
+0,andere,0,71,70000,benzin,UnCatNation,0,13.5
+0,kombi,1,170,90000,andere,Czech,0,13.92
+1,limousine,1,26,5000,benzin,Europe,1,31.42
+1,limousine,1,102,70000,benzin,Germany,0,11.58
+0,limousine,1,80,100000,benzin,Korea,0,23.17
+0,suv,1,124,150000,lpg,Japan,0,16.17
+0,suv,1,82,50000,benzin,Russia,0,9.08
