@@ -42,5 +42,35 @@ def predict_csv():
     except Exception as e:
         return "internal err", 500
 
+@app.route('/api/predict/csv-with-price')
+def predict_csv_price():
+    try:
+        if 'file' not in request.files:
+            return 'No file uploaded', 400
+        # use ordinal dummy encoding
+        file = request.files['file']
+        ordinal = pd.read_csv(file.stream, encoding='utf-8', index_col=False)
+        feature = ordinal.drop(columns=['price'], axis=1)
+        prefix = pd.read_csv('./prefix.csv', encoding='utf-8', index_col=False)
+        df = pd.concat([feature, prefix], ignore_index=True)
+        df = pd.get_dummies(df, drop_first=True, dtype=int)
+        print(df.columns)
+        drop = len(prefix)
+        df = df.iloc[:-drop]
+
+        IQRs, median = robust_data('./settings/data.json')
+        columns = ['powerPS', 'odometer', 'Age']
+        #(X - median(X)) / IQR(X)
+        df[columns] = (df[columns] - median)/IQRs
+        # Load the model from the file
+        GDBT_Robust_Scaled = joblib.load('./models/Gradient_Boosting_scaled.pkl')
+        predicted_list = GDBT_Robust_Scaled.predict(df)
+        ordinal['predicted'] = np.exp(predicted_list)
+        return ordinal.to_csv(index=False), 200
+
+    except Exception as e:
+        return "internal err", 500
+
+
 if __name__ == '__main__':
     app.run()
